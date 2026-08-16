@@ -128,7 +128,6 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .header-inner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 1rem var(--space-md);
   max-width: var(--content-width);
   margin: 0 auto;
@@ -142,6 +141,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   display: flex;
   align-items: center;
   gap: 0.6rem;
+   margin-right: 2rem;
 }
 .logo-mark .mark {
   width: 30px; height: 30px;
@@ -155,7 +155,11 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .logo-mark .mark::before { width: 1px; height: 8px; top: -4px; left: 50%; }
 .logo-mark .mark::after { width: 8px; height: 1px; left: -4px; top: 50%; }
 
-.main-nav { display: flex; gap: var(--space-md); }
+.main-nav { 
+  display: flex; 
+  gap: var(--space-md);
+  margin-right: auto;
+}
 .main-nav a {
   font-family: var(--font-mono);
   font-size: 0.76rem;
@@ -198,6 +202,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   color: var(--ink);
   white-space: nowrap;
   transition: background 0.2s ease, color 0.2s ease;
+   margin-left: 1.5rem;
 }
 .header-cta:hover { background: var(--ink); color: var(--paper); }
 
