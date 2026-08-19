@@ -684,7 +684,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   }
   .main-nav.is-open { display: flex; }
   .header-cta { display: none; }
-  .nav-toggle { display: block; }
+  .nav-toggle { display: block; margin-left: auto; }
   .pillars-grid { grid-template-columns: 1fr; }
   .timeline-item { grid-template-columns: 20px 1fr; }
   .timeline-date { grid-column: 1 / -1; text-align: left; order: -1; margin-bottom: 0.3rem; }
