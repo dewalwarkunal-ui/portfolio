@@ -182,8 +182,10 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   display: none;
   background: none;
   border: 1px solid var(--ink);
-  width: 40px; height: 36px;
+  width: 40px;
+  height: 36px;
   cursor: pointer;
+  margin-left: auto;
 }
 .nav-toggle span, .nav-toggle span::before, .nav-toggle span::after {
   content: ""; display: block; width: 18px; height: 1.5px; background: var(--ink); margin: auto;
