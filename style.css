@@ -551,13 +551,13 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   position: absolute;
   top: var(--space-md);
   right: var(--space-md);
-  width: 24px;
-  height: 24px;
+  width: 25px;
+  height: 25px;
   transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
 .testimonial-card:hover .testimonial-linkedin-icon {
-  transform: scale(1.12);
+  transform: scale(1.25);
   opacity: 0.85;
 }
 .testimonial-card:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(23,55,75,0.07); }
