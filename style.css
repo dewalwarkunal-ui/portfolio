@@ -583,7 +583,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 }
 .skill-tag::after {
   content: "+";
-  font-size: 0.85em;
+  font-size: 0.75em;
   color: var(--brass);
   transition: transform 0.2s ease;
   line-height: 1;
