@@ -1,6 +1,6 @@
 // Kunal Dewalwar — Executive Portfolio (single-page)
 // Vanilla JS: nav active-state tracking, smooth-scroll, parallax,
-// scroll reveal, metric count-up, and contact form handling.
+// scroll reveal, metric count-up, skills accordion, and contact form handling.
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -112,6 +112,28 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }, { passive: true });
   }
+
+  /* ---------------- Skills accordion (click a skill tag to expand proof) ---------------- */
+  var skillTags = document.querySelectorAll('.skill-tag');
+  skillTags.forEach(function (tagBtn) {
+    var detail = tagBtn.nextElementSibling;
+    if (!detail || !detail.classList.contains('skill-detail')) return;
+
+    tagBtn.addEventListener('click', function () {
+      var isOpen = tagBtn.getAttribute('aria-expanded') === 'true';
+
+      // Close this one if already open
+      if (isOpen) {
+        tagBtn.setAttribute('aria-expanded', 'false');
+        detail.hidden = true;
+        return;
+      }
+
+      // Open this one (multiple skills can be open at once — no auto-close of others)
+      tagBtn.setAttribute('aria-expanded', 'true');
+      detail.hidden = false;
+    });
+  });
 
   /* ---------------- Contact form ---------------- */
   var form = document.getElementById('contact-form');
