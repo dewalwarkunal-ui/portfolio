@@ -284,7 +284,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
      screen, adjust this single value up or down in small steps (e.g.
      -20px, -30px) until the crop looks right — mm-to-px isn't exact
      across devices since it depends on the image's native resolution. */
-  object-position: center -26px;
+  object-position: calc(50% - 15px) -26px;
 }
 .frame-corner { position: absolute; width: 28px; height: 28px; border-color: var(--ink); border-style: solid; border-width: 0; }
 .frame-corner.tl { top: -10px; left: -10px; border-top-width: 2px; border-left-width: 2px; }
