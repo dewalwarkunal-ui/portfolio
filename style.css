@@ -261,7 +261,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 }
 .hero h1 { font-size: var(--step-4); max-width: 14ch; }
 .hero .lede { font-size: var(--step-1); color: var(--ink-soft); max-width: 46ch; margin-bottom: var(--space-md); }
-.hero-positioning { font-size: 1.05rem; color: var(--ink); max-width: 48ch; margin-top: -0.4rem; margin-bottom: var(--space-md); line-height: 1.6; }
+.hero-positioning { font-size: 1rem; color: var(--ink); max-width: 48ch; margin-top: -0.4rem; margin-bottom: var(--space-md); line-height: 1.6; }
 .hero-positioning strong { font-weight: 600; }
 .hero-ctas { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
 
