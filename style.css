@@ -583,6 +583,12 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   align-items: center;
   gap: 0.45em;
 }
+
+.skill-tag:hover {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
 .skill-tag::after {
   content: "+";
   font-size: 0.85em;
