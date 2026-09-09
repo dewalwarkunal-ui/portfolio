@@ -278,7 +278,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   overflow: hidden;
 }
 .hero-portrait img {
-  width: 100%;
+  width: 105%;
   height: 100%;
   object-fit: cover;
   object-position: calc(50% - 05px) -26px;
