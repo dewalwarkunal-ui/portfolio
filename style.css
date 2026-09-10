@@ -1,25 +1,25 @@
 /* ==========================================================================
    KUNAL DEWALWAR — EXECUTIVE PORTFOLIO
-   Design System v2.1 — Single-page architecture
-   Original color system retained (warm cream / deep signal blue / brass).
-   Typography updated to Libre Baskerville (display) + Manrope (body/UI).
+   Design System v2.2 — Single-page architecture
+   Color theme: Option 3 — Charcoal & Terracotta
+   Typography: Libre Baskerville (display) + Manrope (body/UI).
    ========================================================================== */
 
 /* -------------------- Design Tokens -------------------- */
 :root {
-  /* Color */
-  --paper: #FAF8F4;
-  --surface: #F1EEE7;
-  --surface-deep: #E9E4D9;
-  --ink: #191E22;
-  --ink-soft: #4B5259;
-  --ink-faint: #838B92;
-  --accent: #24506B;       /* deep signal blue — governance, trust */
-  --accent-deep: #17374B;
-  --brass: #A6824F;
-  --brass-soft: #C9A876;
-  --line: #DDD7C9;
-  --line-strong: #C3BBA8;
+  /* Color — Charcoal & Terracotta */
+  --paper: #ECE7DD;
+  --surface: #E0D8C7;
+  --surface-deep: #D1C6AE;
+  --ink: #20201E;
+  --ink-soft: #4E4A44;
+  --ink-faint: #86807A;
+  --accent: #8C4A34;       /* terracotta — primary accent */
+  --accent-deep: #6B3626;
+  --brass: #C9A876;        /* kept from original — pairs with terracotta */
+  --brass-soft: #DCC496;
+  --line: #D6CDBB;
+  --line-strong: #BBAF97;
   --white: #FFFFFF;
 
   /* Type */
@@ -121,7 +121,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  background: rgba(250, 248, 244, 0.88);
+  background: rgba(236, 231, 221, 0.88);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
 }
@@ -232,7 +232,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .btn-primary:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--paper); }
 .btn-secondary { color: var(--ink); }
 .btn-secondary:hover { background: var(--ink); color: var(--paper); }
-.btn-on-dark { border-color: rgba(250,248,244,0.5); color: var(--paper); }
+.btn-on-dark { border-color: rgba(236, 231, 221, 0.5); color: var(--paper); }
 .btn-on-dark:hover { background: var(--paper); color: var(--accent-deep); border-color: var(--paper); }
 
 @media (prefers-reduced-motion: reduce) { .btn:hover { transform: none; } }
@@ -644,7 +644,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   transform: scale(1.25);
   opacity: 0.85;
 }
-.testimonial-card:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(23,55,75,0.07); }
+.testimonial-card:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(107, 54, 38, 0.09); }
 .testimonial-mark { font-family: var(--font-display); font-size: 2.4rem; color: var(--brass-soft); line-height: 1; margin-bottom: 0.4rem; }
 .testimonial-quote { font-family: var(--font-display); font-style: italic; font-size: 1.05rem; color: var(--ink); flex-grow: 1; margin-bottom: var(--space-sm); }
 .testimonial-name { font-weight: 600; font-size: 0.92rem; color: var(--ink); }
@@ -658,7 +658,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .contact-method a, .contact-method span.value { font-size: 1.08rem; color: var(--ink); }
 .form-group { margin-bottom: var(--space-sm); }
 .form-group label { font-family: var(--font-mono); font-weight: 600; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-soft); display: block; margin-bottom: 0.4rem; }
-.form-group input, .form-group textarea { width: 100%; font-family: var(--font-body); font-size: 1rem; padding: 0.75rem; border: 1px solid var(--line-strong); background: var(--white); color: var(--ink); }
+.form-group input, .form-group textarea { width: 100%; font-family: var(--font-body); font-size: 1rem; padding: 0.75rem; border: 1px solid var(--line-strong); background: var(--paper); color: var(--ink); }
 .form-group input:focus, .form-group textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
 .form-note { font-size: 0.84rem; color: var(--ink-faint); margin-top: var(--space-sm); }
 .form-status { font-family: var(--font-mono); font-weight: 500; font-size: 0.84rem; margin-top: var(--space-sm); display: none; }
@@ -740,7 +740,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 /* -------------------- Closing CTA -------------------- */
 .cta-band { background: var(--ink); color: var(--paper); padding: var(--space-xl) 0; text-align: center; }
 .cta-band h2 { color: var(--paper); font-size: var(--step-3); max-width: 20ch; margin: 0 auto var(--space-sm); }
-.cta-band p { color: rgba(250,248,244,0.7); max-width: 46ch; margin: 0 auto var(--space-md); }
+.cta-band p { color: rgba(236, 231, 221, 0.7); max-width: 46ch; margin: 0 auto var(--space-md); }
 .cta-band .hero-ctas { justify-content: center; }
 
 /* -------------------- Footer -------------------- */
