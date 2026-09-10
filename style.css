@@ -1,8 +1,11 @@
 /* ==========================================================================
    KUNAL DEWALWAR — EXECUTIVE PORTFOLIO
-   Design System v2.2 — Single-page architecture
+   Design System v2.3 — Single-page architecture
    Color theme: Option 3 — Charcoal & Terracotta
    Typography: Libre Baskerville (display) + Manrope (body/UI).
+   v2.3 changes: solid-fill CTAs and dark band now use --accent-deep
+   instead of --ink (ink stays reserved for text/outline strokes).
+   Skills section rebuilt as a two-column accordion list.
    ========================================================================== */
 
 /* -------------------- Design Tokens -------------------- */
@@ -207,10 +210,10 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   padding: 0.55rem 1.1rem;
   color: var(--ink);
   white-space: nowrap;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   margin-left: 1.5rem;
 }
-.header-cta:hover { background: var(--ink); color: var(--paper); }
+.header-cta:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--paper); }
 
 /* -------------------- Buttons -------------------- */
 .btn {
@@ -228,10 +231,10 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 }
 .btn:hover { transform: translateY(-2px); }
 .btn:active { transform: translateY(0); }
-.btn-primary { background: var(--ink); color: var(--paper); }
-.btn-primary:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--paper); }
+.btn-primary { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--paper); }
+.btn-primary:hover { background: var(--accent); border-color: var(--accent); color: var(--paper); }
 .btn-secondary { color: var(--ink); }
-.btn-secondary:hover { background: var(--ink); color: var(--paper); }
+.btn-secondary:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--paper); }
 .btn-on-dark { border-color: rgba(236, 231, 221, 0.5); color: var(--paper); }
 .btn-on-dark:hover { background: var(--paper); color: var(--accent-deep); border-color: var(--paper); }
 
@@ -539,11 +542,72 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .principle-eyebrow { font-family: var(--font-mono); font-weight: 600; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-faint); display: block; margin-bottom: 0.4rem; }
 
 /* -------------------- Skills -------------------- */
-.skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 var(--space-xl); }
+/* Two-column category grid (fills the row width instead of leaving it empty) */
+.skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-lg) var(--space-xl); }
+.skills-grid .skills-category { margin-bottom: 0; }
 .skills-category { margin-bottom: var(--space-lg); }
 .skills-category h3 { font-family: var(--font-mono); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); border-bottom: 1px solid var(--line); padding-bottom: var(--space-xs); margin-bottom: var(--space-sm); }
-.tag-row { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: flex-start; }
 
+/* Accordion-style skill rows: full-width, one open at a time (see inline script) */
+.skills-list { display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+.skill-row { border-bottom: 1px solid var(--line); }
+.skill-row-trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  background: none;
+  border: none;
+  padding: 0.85rem 0.1rem;
+  font: inherit;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.94rem;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+.skill-row-trigger:hover { color: var(--accent); }
+.skill-row.is-open > .skill-row-trigger { color: var(--accent-deep); }
+.skill-row-icon {
+  flex-shrink: 0;
+  width: 24px; height: 24px;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.25s ease;
+}
+.skill-row-trigger:hover .skill-row-icon { border-color: var(--accent); color: var(--accent); }
+.skill-row.is-open .skill-row-icon {
+  border-color: var(--accent-deep);
+  color: var(--accent-deep);
+  transform: rotate(45deg);
+}
+.skill-row-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+.skill-row-panel > div { overflow: hidden; }
+.skill-row.is-open .skill-row-panel { grid-template-rows: 1fr; }
+.skill-row-panel-inner { padding: 0 0.1rem 1rem; }
+.skill-row-panel-inner p {
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  border-left: 2px solid var(--brass);
+  padding-left: 0.9rem;
+  margin: 0;
+  line-height: 1.6;
+}
+@media (prefers-reduced-motion: reduce) { .skill-row-panel { transition: none; } }
+
+/* Plain tag row still used for Technology & Tools (no expand behaviour) */
+.tag-row { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: flex-start; }
 .tag {
   font-family: var(--font-mono);
   font-weight: 500;
@@ -555,7 +619,6 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
 }
 .tag:hover { border-color: var(--accent); color: var(--accent); }
-
 .tag-muted {
   color: var(--ink-faint);
   border-color: var(--line);
@@ -564,58 +627,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 }
 .tag-muted:hover { border-color: var(--line-strong); color: var(--ink-faint); cursor: default; }
 
-.skill-item { display: flex; flex-direction: column; }
-
-.skill-tag {
-  cursor: pointer;
-  font: inherit;
-  font-family: var(--font-mono);
-  font-weight: 600;
-  font-size: 0.72rem;
-  padding: 0.35rem 0.7rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45em;
-}
-
-.skill-tag:hover {
-  background: var(--ink);
-  color: var(--paper);
-  border-color: var(--ink);
-}
-.skill-tag::after {
-  content: "+";
-  font-size: 0.85em;
-  color: var(--brass);
-  transition: transform 0.2s ease;
-  line-height: 1;
-}
-.skill-tag[aria-expanded="true"] {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: var(--paper);
-}
-.skill-tag[aria-expanded="true"]::after {
-  content: "–";
-}
-
-.skill-detail {
-  width: 100%;
-  max-width: 46ch;
-  border-left: 2px solid var(--brass);
-  background: var(--paper);
-  padding: 0.85rem 1rem;
-  margin-top: 0.5rem;
-}
-.skill-detail p {
-  font-size: 0.88rem;
-  color: var(--ink-soft);
-  margin: 0;
-  line-height: 1.6;
-}
-.skill-detail[hidden] { display: none; }
-
-.skills-tools { margin-bottom: 0; }
+.skills-tools { margin-bottom: 0; margin-top: var(--space-lg); }
 .skills-tools .tag-row { gap: 0.5rem; }
 
 /* -------------------- Testimonials -------------------- */
@@ -738,9 +750,9 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 }
 
 /* -------------------- Closing CTA -------------------- */
-.cta-band { background: var(--ink); color: var(--paper); padding: var(--space-xl) 0; text-align: center; }
+.cta-band { background: var(--accent-deep); color: var(--paper); padding: var(--space-xl) 0; text-align: center; }
 .cta-band h2 { color: var(--paper); font-size: var(--step-3); max-width: 20ch; margin: 0 auto var(--space-sm); }
-.cta-band p { color: rgba(236, 231, 221, 0.7); max-width: 46ch; margin: 0 auto var(--space-md); }
+.cta-band p { color: rgba(236, 231, 221, 0.75); max-width: 46ch; margin: 0 auto var(--space-md); }
 .cta-band .hero-ctas { justify-content: center; }
 
 /* -------------------- Footer -------------------- */
