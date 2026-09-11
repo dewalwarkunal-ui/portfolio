@@ -548,54 +548,44 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .skills-category { margin-bottom: var(--space-lg); }
 .skills-category h3 { font-family: var(--font-mono); font-weight: 600; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); border-bottom: 1px solid var(--line); padding-bottom: var(--space-xs); margin-bottom: var(--space-sm); }
 
-/* Accordion-style skill rows: full-width, one open at a time (see inline script) */
-.skills-list { display: flex; flex-direction: column; border-top: 1px solid var(--line); }
-.skill-row { border-bottom: 1px solid var(--line); }
-.skill-row-trigger {
-  width: 100%;
+/* Accordion-style skill rows: native <details>, same mechanism as the Experience
+   accordion, so open/closed state is handled by the browser and can't crop text.
+   Only one open at a time within #skills (see inline script). */
+.skills-list { display: flex; flex-direction: column; }
+.skill-row { border: 1px solid var(--line); background: var(--paper); margin-bottom: 0.6rem; }
+.skill-row:last-child { margin-bottom: 0; }
+.skill-row summary {
+  cursor: pointer;
+  list-style: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-sm);
-  background: none;
-  border: none;
-  padding: 0.85rem 0.1rem;
-  font: inherit;
+  padding: 0.9rem 1.1rem;
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 0.94rem;
+  font-size: 0.95rem;
   color: var(--ink);
-  text-align: left;
-  cursor: pointer;
   transition: color 0.2s ease;
 }
-.skill-row-trigger:hover { color: var(--accent); }
-.skill-row.is-open > .skill-row-trigger { color: var(--accent-deep); }
-.skill-row-icon {
-  flex-shrink: 0;
-  width: 24px; height: 24px;
-  border: 1px solid var(--line-strong);
-  border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-mono);
-  font-size: 0.85rem;
-  color: var(--ink-faint);
-  transition: border-color 0.2s ease, color 0.2s ease, transform 0.25s ease;
-}
-.skill-row-trigger:hover .skill-row-icon { border-color: var(--accent); color: var(--accent); }
-.skill-row.is-open .skill-row-icon {
-  border-color: var(--accent-deep);
-  color: var(--accent-deep);
-  transform: rotate(45deg);
-}
-.skill-row-panel {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.3s ease;
-}
-.skill-row-panel > div { overflow: hidden; }
-.skill-row.is-open .skill-row-panel { grid-template-rows: 1fr; }
-.skill-row-panel-inner { padding: 0 0.1rem 1rem; }
+.skill-row summary::-webkit-details-marker { display: none; }
+.skill-row summary:hover { color: var(--accent); }
+.skill-row[open] summary { color: var(--accent-deep); }
+
+/* Icon matches .role-toggle-icon exactly: a circle that morphs from + to − */
+.skill-toggle-icon { width: 26px; height: 26px; border: 1px solid var(--ink); border-radius: 50%; flex-shrink: 0; position: relative; }
+.skill-toggle-icon::before, .skill-toggle-icon::after { content: ""; position: absolute; background: var(--ink); top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.skill-toggle-icon::before { width: 10px; height: 1px; }
+.skill-toggle-icon::after { width: 1px; height: 10px; transition: transform 0.2s ease; }
+.skill-row[open] .skill-toggle-icon::after { transform: translate(-50%, -50%) rotate(90deg) scaleY(0); }
+.skill-row[open] .skill-toggle-icon,
+.skill-row summary:hover .skill-toggle-icon { border-color: var(--accent-deep); }
+.skill-row[open] .skill-toggle-icon::before,
+.skill-row[open] .skill-toggle-icon::after,
+.skill-row summary:hover .skill-toggle-icon::before,
+.skill-row summary:hover .skill-toggle-icon::after { background: var(--accent-deep); }
+
+.skill-row-panel { padding: 0.9rem 1.1rem 1rem; border-top: 1px solid var(--line); }
 .skill-row-panel-inner p {
   font-size: 0.88rem;
   color: var(--ink-soft);
@@ -604,7 +594,6 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   margin: 0;
   line-height: 1.6;
 }
-@media (prefers-reduced-motion: reduce) { .skill-row-panel { transition: none; } }
 
 /* Plain tag row still used for Technology & Tools (no expand behaviour) */
 .tag-row { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: flex-start; }
