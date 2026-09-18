@@ -21,6 +21,7 @@
   --accent-deep: #6B3626;
   --brass: #C9A876;        /* kept from original — pairs with terracotta */
   --brass-soft: #DCC496;
+  --brass-text: #775A2F;   /* darkened brass for text use — meets WCAG AA (4.5:1) on paper/surface; --brass itself is ~1.8:1 and fails as text */
   --line: #D6CDBB;
   --line-strong: #BBAF97;
   --white: #FFFFFF;
@@ -331,7 +332,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .pillars-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
 .pillar { background: var(--paper); padding: var(--space-md); display: flex; flex-direction: column; gap: var(--space-xs); transition: background 0.25s ease; }
 .pillar:hover { background: var(--surface); }
-.pillar-tag { font-family: var(--font-mono); font-weight: 600; font-size: 0.7rem; letter-spacing: 0.08em; color: var(--brass); text-transform: uppercase; }
+.pillar-tag { font-family: var(--font-mono); font-weight: 600; font-size: 0.7rem; letter-spacing: 0.08em; color: var(--brass-text); text-transform: uppercase; }
 .pillar h3 { font-size: 1.2rem; margin-bottom: 0.25rem; }
 .pillar p { font-size: 0.92rem; margin-bottom: 0.75rem; }
 .pillar-proof { margin-top: auto; font-family: var(--font-mono); font-size: 0.76rem; color: var(--ink); border-top: 1px solid var(--line); padding-top: 0.75rem; }
@@ -415,7 +416,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .initiative-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
 .initiative-card { border: 1px solid var(--line); padding: var(--space-md); display: flex; flex-direction: column; transition: border-color 0.2s ease, transform 0.2s ease; }
 .initiative-card:hover { border-color: var(--accent); transform: translateY(-3px); }
-.initiative-tag { font-family: var(--font-mono); font-weight: 600; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--brass); margin-bottom: 0.6rem; }
+.initiative-tag { font-family: var(--font-mono); font-weight: 600; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--brass-text); margin-bottom: 0.6rem; }
 .initiative-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
 .initiative-card p { font-size: 0.9rem; flex-grow: 1; }
 .initiative-meta { font-family: var(--font-mono); font-weight: 600; font-size: 0.74rem; color: var(--ink); border-top: 1px solid var(--line); padding-top: 0.7rem; margin-top: 0.7rem; }
@@ -511,7 +512,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   font-size: 0.9rem;
 }
 .flow-stage:last-child::after { content: ""; }
-.flow-stage-num { font-family: var(--font-mono); font-weight: 600; font-size: 0.7rem; color: var(--brass); letter-spacing: 0.06em; display: block; margin-bottom: 0.5rem; }
+.flow-stage-num { font-family: var(--font-mono); font-weight: 600; font-size: 0.7rem; color: var(--brass-text); letter-spacing: 0.06em; display: block; margin-bottom: 0.5rem; }
 .flow-stage h4 { font-size: 1.02rem; margin-bottom: 0.4rem; }
 .flow-stage .tat { font-family: var(--font-mono); font-weight: 600; font-size: 0.72rem; color: var(--ink-faint); display: block; margin-bottom: 0.6rem; }
 .flow-stage ul { padding-left: 1rem; font-size: 0.82rem; margin: 0; }
@@ -685,7 +686,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .form-status { font-family: var(--font-mono); font-weight: 500; font-size: 0.84rem; margin-top: var(--space-sm); display: none; }
 .form-status.is-success { display: block; color: var(--accent-deep); }
 .form-status.is-error { display: block; color: #A6412F; }
-.form-status.is-info { display: block; color: var(--brass); }
+.form-status.is-info { display: block; color: var(--brass-text); }
 
 /* -------------------- Standalone Page Header (blog, etc.) -------------------- */
 .page-header { padding: calc(var(--space-xl) * 0.7 + 88px) 0 var(--space-lg); border-bottom: 1px solid var(--line); }
