@@ -30,6 +30,7 @@
   --font-display: "Libre Baskerville", Georgia, serif;
   --font-body: "Manrope", -apple-system, "Segoe UI", sans-serif;
   --font-mono: "Manrope", -apple-system, sans-serif;
+  --font-quote: "Lora", Georgia, serif;   /* elegant, legible italic — used for pull-quotes and testimonials instead of Libre Baskerville's tighter italic */
 
   /* Scale */
   --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
@@ -453,7 +454,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   flex-shrink: 0;
 }
 .case-header h3 { font-size: var(--step-2); margin: 0.35rem 0 0.4rem; }
-.case-subtitle { font-family: var(--font-display); font-style: italic; color: var(--ink-soft); margin: 0; }
+.case-subtitle { font-family: var(--font-quote); font-style: italic; color: var(--ink-soft); margin: 0; }
 
 .case-study .case-section-grid { padding: var(--space-lg) var(--space-md); border-bottom: 1px solid var(--line); }
 .case-study .case-section-grid:last-child { border-bottom: none; }
@@ -483,7 +484,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .result-label { font-family: var(--font-mono); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-faint); margin-top: 0.3rem; display: block; max-width: 18ch; }
 
 .quote-block { border-left: 2px solid var(--brass); padding: var(--space-sm) 0 var(--space-sm) var(--space-md); margin: var(--space-md) 0; }
-.quote-block p { font-family: var(--font-display); font-style: italic; font-size: var(--step-1); color: var(--ink); margin: 0; }
+.quote-block p { font-family: var(--font-quote); font-style: italic; font-size: var(--step-1); color: var(--ink); margin: 0; }
 .quote-block cite { font-family: var(--font-mono); font-weight: 600; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-faint); font-style: normal; display: block; margin-top: 0.6rem; }
 
 .gap-diagram { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); margin: var(--space-md) 0; }
@@ -649,7 +650,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 }
 .testimonial-card:hover { transform: translateY(-3px); box-shadow: 0 10px 26px rgba(107, 54, 38, 0.09); }
 .testimonial-mark { font-family: var(--font-display); font-size: 2.4rem; color: var(--brass-soft); line-height: 1; margin-bottom: 0.4rem; }
-.testimonial-quote { font-family: var(--font-display); font-style: italic; font-size: 1.05rem; color: var(--ink); flex-grow: 1; margin-bottom: var(--space-sm); }
+.testimonial-quote { font-family: var(--font-quote); font-style: italic; font-size: 1.05rem; color: var(--ink); flex-grow: 1; margin-bottom: var(--space-sm); }
 .testimonial-name { font-weight: 600; font-size: 0.92rem; color: var(--ink); }
 .testimonial-title { font-family: var(--font-mono); font-weight: 600; font-size: 0.72rem; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 0.15rem; }
 
