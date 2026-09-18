@@ -318,6 +318,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .metric.is-visible::before { transform: scaleX(1); }
 .metric-value { font-family: var(--font-mono); font-size: var(--step-2); font-weight: 700; color: var(--ink); display: block; }
 .metric-label { font-family: var(--font-mono); font-weight: 600; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); margin-top: 0.3rem; display: block; }
+.metric-context { font-family: var(--font-mono); font-weight: 500; font-size: 0.62rem; letter-spacing: 0.02em; text-transform: none; color: var(--ink-faint); opacity: 0.72; margin-top: 0.2rem; display: block; }
 
 /* -------------------- Section Basics -------------------- */
 .section { padding: var(--space-xl) 0; scroll-margin-top: 88px; }
