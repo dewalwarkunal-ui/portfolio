@@ -1,12 +1,8 @@
 /* ==========================================================================
    KUNAL DEWALWAR — EXECUTIVE PORTFOLIO
-   Design System v2.4 — Single-page architecture
+   Design System v2.3 — Single-page architecture
    Color theme: Option 3 — Charcoal & Terracotta
    Typography: Libre Baskerville (display) + Manrope (body/UI).
-   v2.4 changes: staggered scroll-reveal for card/list groups (.reveal-group),
-   a restrained sticky-anchor treatment for the About "Origin" story
-   (.origin-story), and a new Capabilities card section — all built on the
-   existing .reveal / IntersectionObserver system, no new JS dependencies.
    v2.3 changes: solid-fill CTAs and dark band now use --accent-deep
    instead of --ink (ink stays reserved for text/outline strokes).
    Skills section rebuilt as a two-column accordion list.
@@ -62,7 +58,6 @@ html { scroll-behavior: smooth; scroll-padding-top: 88px; }
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-    transition-delay: 0ms !important;
     scroll-behavior: auto !important;
   }
 }
@@ -427,29 +422,6 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .initiative-card p { font-size: 0.9rem; flex-grow: 1; }
 .initiative-meta { font-family: var(--font-mono); font-weight: 600; font-size: 0.74rem; color: var(--ink); border-top: 1px solid var(--line); padding-top: 0.7rem; margin-top: 0.7rem; }
 
-/* -------------------- Capabilities Cards (new) --------------------
-   Deliberately NOT numbered (01/02/03…) per the site's anti-template
-   rule — category tag + one line, same border/hover language as
-   .initiative-card so it reads as one family, not a bolted-on block. */
-.capabilities-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: var(--space-md);
-}
-.capability-card {
-  border: 1px solid var(--line);
-  padding: var(--space-md);
-  background: var(--paper);
-  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
-}
-.capability-card:hover {
-  border-color: var(--accent);
-  transform: translateY(-3px);
-  background: var(--surface);
-}
-.capability-card p { font-size: 0.9rem; margin-bottom: 0; }
-.capability-card .initiative-tag { margin-bottom: 0.7rem; }
-
 /* -------------------- Case Study Layout -------------------- */
 .case-hero { padding: var(--space-lg) 0; border-bottom: 1px solid var(--line); }
 .case-hero-meta { display: flex; gap: var(--space-md); flex-wrap: wrap; margin-top: var(--space-sm); }
@@ -463,19 +435,6 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .case-section-body li { margin-bottom: 0.5rem; }
 .result-strip { display: flex; gap: var(--space-lg); flex-wrap: wrap; margin-top: var(--space-md); }
 .result-strip .metric { flex: 0 1 140px; }
-
-/* Origin story — the one "anchored while it unfolds" moment on the site,
-   used only for the About → "Where this began" block. The label stays
-   put (position: sticky) while the two paragraphs reveal in sequence
-   as the visitor scrolls past. Text is untouched — this is a layout
-   treatment only, per Kunal's instruction. */
-.origin-story .case-section-label {
-  position: sticky;
-  top: 140px;
-  align-self: start;
-}
-.origin-story .case-section-body p:nth-of-type(1) { transition-delay: 0ms; }
-.origin-story .case-section-body p:nth-of-type(2) { transition-delay: 260ms; }
 
 .case-study { border: 1px solid var(--line); background: var(--paper); margin-bottom: var(--space-lg); }
 .case-study:last-child { margin-bottom: 0; }
@@ -818,17 +777,6 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .reveal.is-visible { opacity: 1; transform: translateY(0); }
 
-/* Staggered reveal for grouped elements (card grids, list groups).
-   Pure CSS transition-delay on top of the existing .reveal mechanics —
-   no change to script.js required. Delay is capped at 6 items so a long
-   grid (e.g. testimonials) doesn't leave late cards waiting too long. */
-.reveal-group > .reveal:nth-child(1) { transition-delay: 0ms; }
-.reveal-group > .reveal:nth-child(2) { transition-delay: 90ms; }
-.reveal-group > .reveal:nth-child(3) { transition-delay: 180ms; }
-.reveal-group > .reveal:nth-child(4) { transition-delay: 270ms; }
-.reveal-group > .reveal:nth-child(5) { transition-delay: 360ms; }
-.reveal-group > .reveal:nth-child(n+6) { transition-delay: 450ms; }
-
 /* -------------------- Responsive -------------------- */
 @media (max-width: 960px) {
   .hero-inner { grid-template-columns: 1fr; }
@@ -839,9 +787,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   .timeline-date { text-align: left; }
   .role-grid { grid-template-columns: 1fr; }
   .initiative-grid { grid-template-columns: repeat(2, 1fr); }
-  .capabilities-grid { grid-template-columns: repeat(2, 1fr); }
   .case-section-grid { grid-template-columns: 1fr; gap: var(--space-sm); }
-  .origin-story .case-section-label { position: static; }
   .gap-diagram { grid-template-columns: repeat(2, 1fr); }
   .flow-diagram { grid-template-columns: repeat(2, 1fr); }
   .flow-stage { border-bottom: 1px solid var(--line); }
@@ -872,7 +818,6 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   .metrics-strip .container { justify-content: flex-start; }
   .metric { flex: 1 1 40%; }
   .initiative-grid { grid-template-columns: 1fr; }
-  .capabilities-grid { grid-template-columns: 1fr; }
   .gap-diagram { grid-template-columns: 1fr; }
   .flow-diagram { grid-template-columns: 1fr; }
   .leadership-grid { grid-template-columns: 1fr; }
