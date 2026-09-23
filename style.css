@@ -1,12 +1,11 @@
 /* ==========================================================================
    KUNAL DEWALWAR — EXECUTIVE PORTFOLIO
-   Design System v2.4 — Single-page architecture
+   Design System v2.3 — Single-page architecture
    Color theme: Option 3 — Charcoal & Terracotta
    Typography: Libre Baskerville (display) + Manrope (body/UI).
-   v2.4 changes: hero metrics strip replaced with the "Record of Practice"
-   dimension-line module (architectural drawing motif, ties to origin story)
-   to move away from the generic 4-number stat-strip pattern common to
-   AI-website-builder portfolio templates. All values/labels unchanged.
+   v2.3 changes: solid-fill CTAs and dark band now use --accent-deep
+   instead of --ink (ink stays reserved for text/outline strokes).
+   Skills section rebuilt as a two-column accordion list.
    ========================================================================== */
 
 /* -------------------- Design Tokens -------------------- */
@@ -180,36 +179,12 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 }
 .main-nav a:hover { color: var(--ink); }
 .main-nav a.active { color: var(--ink); }
-/* Underline is always present, scaled to 0 — animates in on section change
-   instead of popping on/off, so nav tracking reads as motion, not a toggle. */
-.main-nav a::after {
+.main-nav a.active::after {
   content: "";
   position: absolute;
   left: 0; bottom: 0; width: 100%; height: 2px;
   background: var(--brass);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.35s ease;
 }
-.main-nav a.active::after { transform: scaleX(1); }
-
-/* -------------------- Scroll Progress Indicator -------------------- */
-.scroll-progress {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  height: 3px;
-  z-index: 200;
-  pointer-events: none;
-  background: transparent;
-}
-.scroll-progress-bar {
-  display: block;
-  height: 100%;
-  width: 0%;
-  background: var(--accent);
-  transition: width 0.1s linear;
-}
-@media (prefers-reduced-motion: reduce) { .scroll-progress-bar { transition: none; } }
 
 .nav-toggle {
   display: none;
@@ -333,81 +308,19 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   .hero-bg-grid { display: none; }
 }
 
-/* -------------------- Record of Practice (dimension-line motif) -------------------- */
-.practice-record { padding: var(--space-lg) 0; border-bottom: 1px solid var(--line); }
-.practice-record-label {
-  font-family: var(--font-mono);
-  font-weight: 600;
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-faint);
-  display: block;
-}
-
-.practice-record-line {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  padding-top: 1.6rem;
-  margin-top: 2.4rem;
-}
-.practice-record-line::before {
-  content: "";
-  position: absolute;
-  top: 1.6rem;
-  left: 0;
-  right: 0;
-  height: 1px;
+/* -------------------- Metrics Strip (dimension-line) -------------------- */
+.metrics-strip { padding: var(--space-lg) 0; border-bottom: 1px solid var(--line); }
+.metrics-strip .container { display: flex; justify-content: space-between; gap: var(--space-md); flex-wrap: wrap; }
+.metric { flex: 1 1 150px; text-align: center; position: relative; padding-top: 1.1rem; }
+.metric::before {
+  content: ""; position: absolute; top: 0; left: 15%; right: 15%; height: 1px;
   background: var(--line-strong);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 1s ease;
+  transform: scaleX(0); transform-origin: left; transition: transform 0.8s ease;
 }
-.practice-record.is-visible .practice-record-line::before { transform: scaleX(1); }
-
-.practice-record-point {
-  position: relative;
-  flex: 1 1 0;
-  display: flex;
-  flex-direction: column;
-  padding: 0 var(--space-sm);
-  text-align: center;
-}
-.practice-record-point:first-child { align-items: flex-start; text-align: left; padding-left: 0; }
-.practice-record-point:last-child { align-items: flex-end; text-align: right; padding-right: 0; }
-
-.prp-tick {
-  position: absolute;
-  top: -1.6rem;
-  left: 50%;
-  width: 1px;
-  height: 10px;
-  background: var(--ink-faint);
-  transform: translateX(-50%);
-}
-.practice-record-point:first-child .prp-tick { left: 0; transform: none; }
-.practice-record-point:last-child .prp-tick { left: auto; right: 0; transform: none; }
-
-/* Alternating above/below the line, like elevation callouts on a drawing */
-.practice-record-point:nth-child(even) { margin-top: 1.5rem; }
-.practice-record-point:nth-child(odd) { margin-top: -1.5rem; }
-
-.prp-value { font-family: var(--font-mono); font-weight: 700; font-size: var(--step-2); color: var(--ink); display: block; }
-.prp-label { font-family: var(--font-mono); font-weight: 600; font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); display: block; margin-top: 0.3rem; }
-.prp-context { font-family: var(--font-mono); font-size: 0.62rem; color: var(--ink-faint); display: block; margin-top: 0.15rem; }
-
-@media (max-width: 720px) {
-  .practice-record-line { flex-direction: column; gap: var(--space-md); padding-top: 0; }
-  .practice-record-line::before { display: none; }
-  .practice-record-point,
-  .practice-record-point:nth-child(even),
-  .practice-record-point:nth-child(odd) {
-    margin-top: 0; text-align: left; align-items: flex-start;
-    border-left: 2px solid var(--accent); padding-left: 1rem; padding-right: 0;
-  }
-  .prp-tick { display: none; }
-}
+.metric.is-visible::before { transform: scaleX(1); }
+.metric-value { font-family: var(--font-mono); font-size: var(--step-2); font-weight: 700; color: var(--ink); display: block; }
+.metric-label { font-family: var(--font-mono); font-weight: 600; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); margin-top: 0.3rem; display: block; }
+.metric-context { font-family: var(--font-mono); font-weight: 500; font-size: 0.62rem; letter-spacing: 0.02em; text-transform: none; color: var(--ink-faint); opacity: 0.72; margin-top: 0.2rem; display: block; }
 
 /* -------------------- Section Basics -------------------- */
 .section { padding: var(--space-xl) 0; scroll-margin-top: 88px; }
@@ -523,13 +436,6 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .result-strip { display: flex; gap: var(--space-lg); flex-wrap: wrap; margin-top: var(--space-md); }
 .result-strip .metric { flex: 0 1 140px; }
 
-/* Generic metric/value/label trio — used inside case-study .result-strip blocks
-   (kept independent of the hero-level .practice-record module above, which
-   replaced the old page-level metrics strip but doesn't touch these). */
-.metric { text-align: left; position: relative; }
-.metric-value { font-family: var(--font-mono); font-size: var(--step-2); font-weight: 700; color: var(--ink); display: block; }
-.metric-label { font-family: var(--font-mono); font-weight: 600; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-faint); margin-top: 0.3rem; display: block; }
-
 .case-study { border: 1px solid var(--line); background: var(--paper); margin-bottom: var(--space-lg); }
 .case-study:last-child { margin-bottom: 0; }
 .case-header {
@@ -614,7 +520,25 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .flow-stage li { margin-bottom: 0.3rem; }
 .flow-role { font-family: var(--font-mono); font-weight: 600; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--accent); display: block; margin-top: 0.6rem; }
 
-/* -------------------- Leadership Principles -------------------- */
+/* -------------------- Leadership Grid (card-based) -------------------- */
+.leadership-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); }
+.leadership-card { border: 1px solid var(--line); padding: var(--space-md); background: var(--paper); transition: background 0.25s ease; }
+.leadership-card:hover { background: var(--surface); }
+.leadership-icon {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: var(--brass);
+  border: 1px solid var(--line-strong);
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: var(--space-sm);
+}
+.leadership-card h3 { font-size: 1.15rem; margin-bottom: 0.4rem; }
+.leadership-card p { font-size: 0.92rem; }
+
+/* -------------------- Leadership Principles (legacy, unused by current markup) -------------------- */
 .principles-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-md); }
 .principle-card { padding: var(--space-md) 0; border-top: 1px solid var(--line); }
 .principle-card h3 { font-size: 1.2rem; }
@@ -853,70 +777,6 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .reveal.is-visible { opacity: 1; transform: translateY(0); }
 
-/* -------------------- Staggered Reveal (card grids) --------------------
-   Each of these selectors is already individually observed and given
-   .is-visible by script.js — no JS change needed. Sibling cards in the
-   same grid enter the viewport together, so a per-child transition-delay
-   turns the simultaneous fade into a left-to-right / top-to-bottom cascade. */
-.initiative-card.reveal:nth-child(1) { transition-delay: 0s; }
-.initiative-card.reveal:nth-child(2) { transition-delay: 0.08s; }
-.initiative-card.reveal:nth-child(3) { transition-delay: 0.16s; }
-.initiative-card.reveal:nth-child(4) { transition-delay: 0.24s; }
-.initiative-card.reveal:nth-child(5) { transition-delay: 0.32s; }
-
-.principle-card.reveal:nth-child(1) { transition-delay: 0s; }
-.principle-card.reveal:nth-child(2) { transition-delay: 0.08s; }
-.principle-card.reveal:nth-child(3) { transition-delay: 0.16s; }
-.principle-card.reveal:nth-child(4) { transition-delay: 0.24s; }
-.principle-card.reveal:nth-child(5) { transition-delay: 0.32s; }
-.principle-card.reveal:nth-child(6) { transition-delay: 0.4s; }
-
-.skills-category.reveal:nth-child(1) { transition-delay: 0s; }
-.skills-category.reveal:nth-child(2) { transition-delay: 0.08s; }
-.skills-category.reveal:nth-child(3) { transition-delay: 0.16s; }
-.skills-category.reveal:nth-child(4) { transition-delay: 0.24s; }
-.skills-category.reveal:nth-child(5) { transition-delay: 0.32s; }
-.skills-category.reveal:nth-child(6) { transition-delay: 0.4s; }
-
-.testimonial-card.reveal:nth-child(1) { transition-delay: 0s; }
-.testimonial-card.reveal:nth-child(2) { transition-delay: 0.1s; }
-.testimonial-card.reveal:nth-child(3) { transition-delay: 0.2s; }
-
-.pillar.reveal:nth-child(1) { transition-delay: 0s; }
-.pillar.reveal:nth-child(2) { transition-delay: 0.1s; }
-
-/* -------------------- Diagram Draw-In --------------------
-   gap-diagram and flow-diagram both live inside a `.container.reveal`
-   wrapper, so their children can key off that ancestor's .is-visible
-   without any JS change. Nodes/stages cascade in left-to-right, reading
-   like a sequence being assembled rather than a static grid appearing. */
-.gap-node {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-.reveal.is-visible .gap-node { opacity: 1; transform: translateY(0); }
-.reveal.is-visible .gap-node:nth-child(1) { transition-delay: 0s; }
-.reveal.is-visible .gap-node:nth-child(2) { transition-delay: 0.08s; }
-.reveal.is-visible .gap-node:nth-child(3) { transition-delay: 0.16s; }
-.reveal.is-visible .gap-node:nth-child(4) { transition-delay: 0.24s; }
-.reveal.is-visible .gap-node:nth-child(5) { transition-delay: 0.32s; }
-.reveal.is-visible .gap-node:nth-child(6) { transition-delay: 0.4s; }
-
-.flow-stage {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-.reveal.is-visible .flow-stage { opacity: 1; transform: translateY(0); }
-.reveal.is-visible .flow-stage:nth-child(1) { transition-delay: 0s; }
-.reveal.is-visible .flow-stage:nth-child(2) { transition-delay: 0.12s; }
-.reveal.is-visible .flow-stage:nth-child(3) { transition-delay: 0.24s; }
-.reveal.is-visible .flow-stage:nth-child(4) { transition-delay: 0.36s; }
-/* The → connector between stages should appear with its stage, not before it */
-.flow-stage::after { opacity: 0; transition: opacity 0.3s ease; }
-.reveal.is-visible .flow-stage::after { opacity: 1; transition-delay: inherit; }
-
 /* -------------------- Responsive -------------------- */
 @media (max-width: 960px) {
   .hero-inner { grid-template-columns: 1fr; }
@@ -933,6 +793,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   .flow-stage { border-bottom: 1px solid var(--line); }
   .flow-stage::after { display: none; }
   .principles-grid { grid-template-columns: 1fr; }
+  .leadership-grid { grid-template-columns: repeat(2, 1fr); }
   .skills-grid { grid-template-columns: 1fr; }
   .testimonial-grid { grid-template-columns: repeat(2, 1fr); }
   .contact-grid { grid-template-columns: 1fr; gap: var(--space-lg); }
@@ -954,9 +815,12 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   .pillars-grid { grid-template-columns: 1fr; }
   .timeline-item { grid-template-columns: 20px 1fr; }
   .timeline-date { grid-column: 1 / -1; text-align: left; order: -1; margin-bottom: 0.3rem; }
+  .metrics-strip .container { justify-content: flex-start; }
+  .metric { flex: 1 1 40%; }
   .initiative-grid { grid-template-columns: 1fr; }
   .gap-diagram { grid-template-columns: 1fr; }
   .flow-diagram { grid-template-columns: 1fr; }
+  .leadership-grid { grid-template-columns: 1fr; }
   .case-header { flex-direction: column; gap: var(--space-sm); }
   .case-number { font-size: 1.6rem; }
   .case-stat-row, .result-grid { gap: var(--space-md); }
