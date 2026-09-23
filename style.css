@@ -180,12 +180,36 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 }
 .main-nav a:hover { color: var(--ink); }
 .main-nav a.active { color: var(--ink); }
-.main-nav a.active::after {
+/* Underline is always present, scaled to 0 — animates in on section change
+   instead of popping on/off, so nav tracking reads as motion, not a toggle. */
+.main-nav a::after {
   content: "";
   position: absolute;
   left: 0; bottom: 0; width: 100%; height: 2px;
   background: var(--brass);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
 }
+.main-nav a.active::after { transform: scaleX(1); }
+
+/* -------------------- Scroll Progress Indicator -------------------- */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  z-index: 200;
+  pointer-events: none;
+  background: transparent;
+}
+.scroll-progress-bar {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: var(--accent);
+  transition: width 0.1s linear;
+}
+@media (prefers-reduced-motion: reduce) { .scroll-progress-bar { transition: none; } }
 
 .nav-toggle {
   display: none;
@@ -828,6 +852,70 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 /* -------------------- Scroll Reveal -------------------- */
 .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.6s ease, transform 0.6s ease; }
 .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+/* -------------------- Staggered Reveal (card grids) --------------------
+   Each of these selectors is already individually observed and given
+   .is-visible by script.js — no JS change needed. Sibling cards in the
+   same grid enter the viewport together, so a per-child transition-delay
+   turns the simultaneous fade into a left-to-right / top-to-bottom cascade. */
+.initiative-card.reveal:nth-child(1) { transition-delay: 0s; }
+.initiative-card.reveal:nth-child(2) { transition-delay: 0.08s; }
+.initiative-card.reveal:nth-child(3) { transition-delay: 0.16s; }
+.initiative-card.reveal:nth-child(4) { transition-delay: 0.24s; }
+.initiative-card.reveal:nth-child(5) { transition-delay: 0.32s; }
+
+.principle-card.reveal:nth-child(1) { transition-delay: 0s; }
+.principle-card.reveal:nth-child(2) { transition-delay: 0.08s; }
+.principle-card.reveal:nth-child(3) { transition-delay: 0.16s; }
+.principle-card.reveal:nth-child(4) { transition-delay: 0.24s; }
+.principle-card.reveal:nth-child(5) { transition-delay: 0.32s; }
+.principle-card.reveal:nth-child(6) { transition-delay: 0.4s; }
+
+.skills-category.reveal:nth-child(1) { transition-delay: 0s; }
+.skills-category.reveal:nth-child(2) { transition-delay: 0.08s; }
+.skills-category.reveal:nth-child(3) { transition-delay: 0.16s; }
+.skills-category.reveal:nth-child(4) { transition-delay: 0.24s; }
+.skills-category.reveal:nth-child(5) { transition-delay: 0.32s; }
+.skills-category.reveal:nth-child(6) { transition-delay: 0.4s; }
+
+.testimonial-card.reveal:nth-child(1) { transition-delay: 0s; }
+.testimonial-card.reveal:nth-child(2) { transition-delay: 0.1s; }
+.testimonial-card.reveal:nth-child(3) { transition-delay: 0.2s; }
+
+.pillar.reveal:nth-child(1) { transition-delay: 0s; }
+.pillar.reveal:nth-child(2) { transition-delay: 0.1s; }
+
+/* -------------------- Diagram Draw-In --------------------
+   gap-diagram and flow-diagram both live inside a `.container.reveal`
+   wrapper, so their children can key off that ancestor's .is-visible
+   without any JS change. Nodes/stages cascade in left-to-right, reading
+   like a sequence being assembled rather than a static grid appearing. */
+.gap-node {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal.is-visible .gap-node { opacity: 1; transform: translateY(0); }
+.reveal.is-visible .gap-node:nth-child(1) { transition-delay: 0s; }
+.reveal.is-visible .gap-node:nth-child(2) { transition-delay: 0.08s; }
+.reveal.is-visible .gap-node:nth-child(3) { transition-delay: 0.16s; }
+.reveal.is-visible .gap-node:nth-child(4) { transition-delay: 0.24s; }
+.reveal.is-visible .gap-node:nth-child(5) { transition-delay: 0.32s; }
+.reveal.is-visible .gap-node:nth-child(6) { transition-delay: 0.4s; }
+
+.flow-stage {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.reveal.is-visible .flow-stage { opacity: 1; transform: translateY(0); }
+.reveal.is-visible .flow-stage:nth-child(1) { transition-delay: 0s; }
+.reveal.is-visible .flow-stage:nth-child(2) { transition-delay: 0.12s; }
+.reveal.is-visible .flow-stage:nth-child(3) { transition-delay: 0.24s; }
+.reveal.is-visible .flow-stage:nth-child(4) { transition-delay: 0.36s; }
+/* The → connector between stages should appear with its stage, not before it */
+.flow-stage::after { opacity: 0; transition: opacity 0.3s ease; }
+.reveal.is-visible .flow-stage::after { opacity: 1; transition-delay: inherit; }
 
 /* -------------------- Responsive -------------------- */
 @media (max-width: 960px) {
