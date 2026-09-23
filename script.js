@@ -1,7 +1,6 @@
 // Kunal Dewalwar — Executive Portfolio (single-page)
 // Vanilla JS: nav active-state tracking, smooth-scroll, parallax,
-// scroll reveal (with count-up on metric/practice-record numbers),
-// scroll-progress indicator, skills accordion, and contact form handling.
+// scroll reveal, metric count-up, skills accordion, and contact form handling.
 
 document.addEventListener('DOMContentLoaded', function () {
 
@@ -46,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
     sections.forEach(function (section) { navObserver.observe(section); });
   }
 
-  /* ---------------- Scroll reveal + count-up (metrics & practice-record) ---------------- */
+  /* ---------------- Scroll reveal + metric count-up ---------------- */
   var revealEls = document.querySelectorAll('.reveal, .metric, .timeline');
 
   function runCountUps(nodes) {
@@ -77,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   if (prefersReducedMotion || !('IntersectionObserver' in window)) {
     revealEls.forEach(function (el) { el.classList.add('is-visible'); });
-    runCountUps(document.querySelectorAll('.metric-value, .prp-value'));
+    runCountUps(document.querySelectorAll('.metric-value'));
   } else {
     var revealObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
@@ -85,12 +84,6 @@ document.addEventListener('DOMContentLoaded', function () {
           entry.target.classList.add('is-visible');
           if (entry.target.classList.contains('metric')) {
             runCountUps(entry.target.querySelectorAll('.metric-value'));
-          }
-          // "Record of Practice" hero strip: count up its five values together
-          // once the whole module scrolls into view (same trigger as its
-          // dimension-line draw-in, so the numbers and the line animate as one).
-          if (entry.target.classList.contains('practice-record')) {
-            runCountUps(entry.target.querySelectorAll('.prp-value'));
           }
           revealObserver.unobserve(entry.target);
         }
@@ -103,46 +96,21 @@ document.addEventListener('DOMContentLoaded', function () {
   var heroGrid = document.querySelector('.hero-bg-grid');
   var heroPortrait = document.querySelector('.hero-portrait');
   if (!prefersReducedMotion && (heroGrid || heroPortrait)) {
-    var parallaxTicking = false;
+    var ticking = false;
     function updateParallax() {
       var y = window.scrollY;
       if (heroGrid) heroGrid.style.transform = 'translateY(' + (y * 0.15) + 'px)';
       if (heroPortrait && y < window.innerHeight) {
         heroPortrait.style.transform = 'translateY(' + (y * 0.06) + 'px)';
       }
-      parallaxTicking = false;
+      ticking = false;
     }
     window.addEventListener('scroll', function () {
-      if (!parallaxTicking) {
+      if (!ticking) {
         requestAnimationFrame(updateParallax);
-        parallaxTicking = true;
+        ticking = true;
       }
     }, { passive: true });
-  }
-
-  /* ---------------- Scroll-progress indicator ---------------- */
-  // Thin bar at the very top of the viewport, filled in proportion to how
-  // far through the page the visitor has scrolled. Purely a read of scroll
-  // position — no dependency on section IDs, so it stays correct if the
-  // page content above/below changes.
-  var progressBar = document.querySelector('.scroll-progress-bar');
-  if (progressBar) {
-    var progressTicking = false;
-    function updateScrollProgress() {
-      var scrollTop = window.scrollY;
-      var docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      progressBar.style.width = Math.min(Math.max(pct, 0), 100) + '%';
-      progressTicking = false;
-    }
-    updateScrollProgress(); // set correct value on load (e.g. after a reload mid-page)
-    window.addEventListener('scroll', function () {
-      if (!progressTicking) {
-        requestAnimationFrame(updateScrollProgress);
-        progressTicking = true;
-      }
-    }, { passive: true });
-    window.addEventListener('resize', updateScrollProgress);
   }
 
   /* ---------------- Skills accordion (click a skill tag to expand proof) ---------------- */
