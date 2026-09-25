@@ -1,179 +1,110 @@
-// Kunal Dewalwar — Executive Portfolio (single-page)
-// Vanilla JS: nav active-state tracking, smooth-scroll, parallax,
-// scroll reveal, metric count-up, skills accordion, and contact form handling.
+/* ============================================================
+   KUNAL DEWALWAR — PORTFOLIO
+   Phase 1 behaviour: running-header section locator, and the
+   mobile index panel toggle. No scroll-triggered fade/slide
+   effects — motion is reserved for direct user actions only.
+   ============================================================ */
 
-document.addEventListener('DOMContentLoaded', function () {
+(function () {
+  "use strict";
 
-  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* ---- Index panel toggle ---- */
+  var toggle = document.getElementById("indexToggle");
+  var index = document.getElementById("recordIndex");
 
-  /* ---------------- Mobile nav toggle ---------------- */
-  var toggle = document.querySelector('.nav-toggle');
-  var nav = document.querySelector('.main-nav');
-  if (toggle && nav) {
-    toggle.addEventListener('click', function () {
-      var isOpen = nav.classList.toggle('is-open');
-      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  if (toggle && index) {
+    toggle.addEventListener("click", function () {
+      var isOpen = index.getAttribute("data-open") === "true";
+      index.setAttribute("data-open", String(!isOpen));
+      toggle.setAttribute("aria-expanded", String(!isOpen));
+      toggle.textContent = isOpen ? "Index" : "Close";
     });
-    // Close mobile nav after tapping a link
-    nav.querySelectorAll('a').forEach(function (link) {
-      link.addEventListener('click', function () {
-        nav.classList.remove('is-open');
-        toggle.setAttribute('aria-expanded', 'false');
+
+    /* Close the index after choosing a link */
+    index.querySelectorAll("a").forEach(function (link) {
+      link.addEventListener("click", function () {
+        index.setAttribute("data-open", "false");
+        toggle.setAttribute("aria-expanded", "false");
+        toggle.textContent = "Index";
       });
     });
   }
 
-  /* ---------------- Active nav link tracking ---------------- */
-  var navLinks = document.querySelectorAll('.main-nav a[href^="#"]');
-  var sections = Array.prototype.map.call(navLinks, function (link) {
-    var id = link.getAttribute('href').slice(1);
-    return document.getElementById(id);
-  }).filter(Boolean);
+  /* ---- Running-header locator ----
+     Updates the header label to the section currently in view,
+     the way a document footer states which page you're on. */
+  var locator = document.getElementById("locator");
+  var sections = document.querySelectorAll("[data-locator]");
 
-  if (sections.length && 'IntersectionObserver' in window) {
-    var navObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          var id = entry.target.id;
-          navLinks.forEach(function (link) {
-            link.classList.toggle('active', link.getAttribute('href') === '#' + id);
-          });
-        }
-      });
-    }, { rootMargin: '-40% 0px -55% 0px', threshold: 0 });
-
-    sections.forEach(function (section) { navObserver.observe(section); });
-  }
-
-  /* ---------------- Scroll reveal + metric count-up ---------------- */
-  var revealEls = document.querySelectorAll('.reveal, .metric, .timeline');
-
-  function runCountUps(nodes) {
-    nodes.forEach(function (node) {
-      if (node.dataset.counted) return;
-      node.dataset.counted = 'true';
-      var raw = node.textContent.trim();
-      var match = raw.match(/(-?[\d.]+)/);
-      if (!match) return;
-      var numStr = match[1];
-      var target = parseFloat(numStr);
-      var prefix = raw.slice(0, match.index);
-      var suffix = raw.slice(match.index + numStr.length);
-      var decimals = (numStr.split('.')[1] || '').length;
-      var duration = 1200;
-      var startTime = null;
-      function step(timestamp) {
-        if (!startTime) startTime = timestamp;
-        var progress = Math.min((timestamp - startTime) / duration, 1);
-        var eased = 1 - Math.pow(1 - progress, 3);
-        var current = (target * eased).toFixed(decimals);
-        node.textContent = prefix + current + suffix;
-        if (progress < 1) { requestAnimationFrame(step); } else { node.textContent = raw; }
-      }
-      requestAnimationFrame(step);
-    });
-  }
-
-  if (prefersReducedMotion || !('IntersectionObserver' in window)) {
-    revealEls.forEach(function (el) { el.classList.add('is-visible'); });
-    runCountUps(document.querySelectorAll('.metric-value'));
-  } else {
-    var revealObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          if (entry.target.classList.contains('metric')) {
-            runCountUps(entry.target.querySelectorAll('.metric-value'));
+  if (locator && sections.length && "IntersectionObserver" in window) {
+    var observer = new IntersectionObserver(
+      function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            locator.textContent = entry.target.getAttribute("data-locator");
           }
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15 });
-    revealEls.forEach(function (el) { revealObserver.observe(el); });
-  }
-
-  /* ---------------- Subtle parallax (hero grid + portrait) ---------------- */
-  var heroGrid = document.querySelector('.hero-bg-grid');
-  var heroPortrait = document.querySelector('.hero-portrait');
-  if (!prefersReducedMotion && (heroGrid || heroPortrait)) {
-    var ticking = false;
-    function updateParallax() {
-      var y = window.scrollY;
-      if (heroGrid) heroGrid.style.transform = 'translateY(' + (y * 0.15) + 'px)';
-      if (heroPortrait && y < window.innerHeight) {
-        heroPortrait.style.transform = 'translateY(' + (y * 0.06) + 'px)';
-      }
-      ticking = false;
-    }
-    window.addEventListener('scroll', function () {
-      if (!ticking) {
-        requestAnimationFrame(updateParallax);
-        ticking = true;
-      }
-    }, { passive: true });
-  }
-
-  /* ---------------- Skills accordion (click a skill tag to expand proof) ---------------- */
-  var skillTags = document.querySelectorAll('.skill-tag');
-  skillTags.forEach(function (tagBtn) {
-    var detail = tagBtn.nextElementSibling;
-    if (!detail || !detail.classList.contains('skill-detail')) return;
-
-    tagBtn.addEventListener('click', function () {
-      var isOpen = tagBtn.getAttribute('aria-expanded') === 'true';
-
-      // Close this one if already open
-      if (isOpen) {
-        tagBtn.setAttribute('aria-expanded', 'false');
-        detail.hidden = true;
-        return;
-      }
-
-      // Open this one (multiple skills can be open at once — no auto-close of others)
-      tagBtn.setAttribute('aria-expanded', 'true');
-      detail.hidden = false;
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    sections.forEach(function (section) {
+      observer.observe(section);
     });
-  });
+  }
+})();
 
-  /* ---------------- Contact form ---------------- */
-  var form = document.getElementById('contact-form');
-  if (form) {
-    var status = document.getElementById('form-status');
-    var actionUrl = form.getAttribute('action') || '';
-    var notConfigured = actionUrl.indexOf('YOUR_FORM_ID') !== -1;
+/* ---- Testimonials: show more ---- */
+(function () {
+  "use strict";
+  var toggle = document.getElementById("testimonialToggle");
+  var list = document.getElementById("testimonialList");
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
+  if (toggle && list) {
+    toggle.addEventListener("click", function () {
+      var isOpen = toggle.getAttribute("aria-expanded") === "true";
+      var extras = list.querySelectorAll(".testimonial--extra");
+      extras.forEach(function (item) {
+        item.hidden = isOpen;
+      });
+      toggle.setAttribute("aria-expanded", String(!isOpen));
+      toggle.textContent = isOpen ? "Show more testimonials" : "Show fewer testimonials";
+    });
+  }
+})();
 
-      if (notConfigured) {
-        status.className = 'form-status is-info';
-        status.textContent = 'Form endpoint not yet configured — please email dewalwarkunal@gmail.com directly for now. (See README: replace YOUR_FORM_ID in contact.html.)';
-        status.style.display = 'block';
-        return;
-      }
+/* ---- Contact form: basic client-side handling ----
+   Formspree handles the actual submission; this just gives
+   the person feedback without leaving the page. */
+(function () {
+  "use strict";
+  var form = document.getElementById("contactForm");
+  if (!form) return;
 
-      var data = new FormData(form);
-      status.className = 'form-status';
-      status.textContent = 'Sending…';
-      status.style.display = 'block';
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var submitBtn = form.querySelector("button[type='submit']");
+    var originalText = submitBtn.textContent;
+    submitBtn.textContent = "Sending…";
+    submitBtn.disabled = true;
 
-      fetch(form.action, {
-        method: 'POST',
-        body: data,
-        headers: { 'Accept': 'application/json' }
-      }).then(function (response) {
+    fetch(form.action, {
+      method: "POST",
+      body: new FormData(form),
+      headers: { Accept: "application/json" }
+    })
+      .then(function (response) {
         if (response.ok) {
-          status.textContent = 'Thanks — your message has been sent. I\'ll get back to you soon.';
-          status.className = 'form-status is-success';
-          form.reset();
+          form.innerHTML = "<p>Thank you — your message has been sent. I'll get back to you shortly.</p>";
         } else {
-          throw new Error('Form submission failed');
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+          alert("Something went wrong sending your message. Please try emailing directly instead.");
         }
-      }).catch(function () {
-        status.textContent = 'Something went wrong sending this. Please email dewalwarkunal@gmail.com directly.';
-        status.className = 'form-status is-error';
+      })
+      .catch(function () {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+        alert("Something went wrong sending your message. Please try emailing directly instead.");
       });
-    });
-  }
-
-});
+  });
+})();
